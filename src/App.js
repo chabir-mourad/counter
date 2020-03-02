@@ -1,26 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {Button} from 'react-bootstrap';
+import {connect} from 'react-redux';
+import {increment, decrement, reset} from './actions/actions'
 
-function App() {
+function App({count, increment,decrement,reset}) {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+   <Button variant="success" onClick={()=> increment()}>+</Button>
+   <span>{count}</span>
+   <Button variant="danger" onClick={()=>decrement()}>-</Button>
+   <Button variant="dark" onClick={()=> reset()}>Reset</Button>
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {count: state.count}
+};
+
+const mapDispatchToProps = (dispatch) => {
+   return {
+     increment: () => dispatch(increment()),
+     decrement: () => dispatch(decrement()),
+     reset: () => dispatch(reset())
+  }
+  
+  
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
